@@ -9,9 +9,43 @@
 <link rel="stylesheet" href="https://semicolonxss.github.io/Formwheel/assets/formwheel-brand.css">
 <style>
 :root{font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif;background:#f7f8fc;color:#24283a}*{box-sizing:border-box}body{margin:0;min-height:100vh}a{color:inherit}button{font:inherit;cursor:pointer}header{display:flex;justify-content:space-between;align-items:center;padding:16px max(20px,calc((100vw - 1040px)/2));background:white;border-bottom:1px solid #e3e7f2;gap:12px}header a{text-decoration:none}.header-note{font-size:12px;color:#65708a;font-weight:750}.wrap{max-width:1040px;margin:auto;padding:30px 20px 70px}.eyebrow{font-size:12px;letter-spacing:.16em;color:#514dc4;font-weight:850}.intro h1{font-size:clamp(38px,7vw,66px);line-height:1.1;margin:12px 0}.intro p{font-size:15px;color:#69728a;line-height:1.7}.spot{position:relative;overflow:hidden;border:1px solid #e3def9;border-radius:26px;background:radial-gradient(circle at 95% 5%,#d8d2ff,transparent 44%),linear-gradient(135deg,#fff,#f1f0ff);box-shadow:0 18px 55px #45439b12;margin:28px 0;padding:clamp(22px,5vw,46px)}.spot:after{content:"✦";position:absolute;right:5%;top:16%;font-size:clamp(70px,15vw,150px);color:#aca6f244;pointer-events:none}.spot>*{position:relative;z-index:1}.chip{display:inline-flex;align-items:center;gap:8px;border-radius:999px;background:#fff;border:1px solid #ddd9f8;padding:8px 12px;font-size:12px;font-weight:800;color:#514dc4}.spot h2{font-size:clamp(34px,7vw,62px);margin:20px 0 8px;letter-spacing:-.03em}.spot .desc{max-width:600px;color:#5d6480;line-height:1.7}.challenge{margin:24px 0;background:#fff9;border:1px solid #e2dff3;border-radius:16px;padding:18px;max-width:620px}.challenge strong{color:#3934a1}.challenge p{margin:8px 0 0;font-size:15px}.buttons{display:flex;flex-wrap:wrap;gap:10px}.primary,.secondary{display:inline-flex;align-items:center;justify-content:center;text-align:center;text-decoration:none;border-radius:12px;font-size:14px;font-weight:800;padding:13px 18px;border:1px solid #3439bd}.primary{background:#3439bd;color:white}.secondary{color:#3439bd;background:white}.meta{font-size:12px;color:#626c83;margin-top:19px}.section-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin:32px 0 16px}.section-top h2{margin:0;font-size:23px}.muted{color:#737b90;font-size:13px}.week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:10px}.day{border:1px solid #e4e6f0;background:white;border-radius:16px;text-align:center;padding:15px 8px;min-width:0}.day strong{display:block;font-size:13px;margin-bottom:9px}.day .emoji{font-size:28px}.day .project{font-size:13px;font-weight:800;margin-top:8px;overflow-wrap:anywhere}.day .status{font-size:11px;color:#778096;margin-top:7px}.day.current{border:2px solid #5954da;background:#f5f3ff;padding:14px 7px}.day.current .status{color:#514dc4;font-weight:800}.notice{background:#fff;border:1px solid #e7eaf2;border-radius:17px;padding:18px 22px;line-height:1.7;color:#68718a;font-size:13px;margin-top:28px}footer{text-align:center;color:#8a91a2;font-size:12px;padding:20px}button:focus-visible,a:focus-visible{outline:3px solid #8883ed;outline-offset:3px}@media(max-width:720px){.week{grid-template-columns:repeat(4,minmax(0,1fr))}.wrap{padding:24px 15px 50px}.spot{margin:20px 0}}@media(max-width:420px){.week{grid-template-columns:repeat(2,minmax(0,1fr))}.buttons a,.buttons button{width:100%}}
+
+/* Daily cinematic reveal */
+.reveal{position:fixed;inset:0;z-index:1000;background:radial-gradient(ellipse at 50% 90%,#20234a,#060714 70%);color:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;isolation:isolate}
+.reveal[hidden]{display:none!important}
+.reveal:before,.reveal:after{content:"";position:absolute;top:-85vh;left:50%;width:74vw;height:180vh;transform-origin:50% 0;opacity:0;pointer-events:none;background:linear-gradient(180deg,#fff8, #b0a6ff48 55%,transparent);filter:blur(24px);clip-path:polygon(49% 0,51% 0,100% 100%,0 100%)}
+.reveal.play:before{animation:beam-left 3.5s ease-in-out both}
+.reveal.play:after{animation:beam-right 3.5s ease-in-out both}
+.reveal-inner{position:relative;text-align:center;width:min(90vw,680px);z-index:2}
+.reveal-kicker{font-weight:850;letter-spacing:.25em;color:#d1caff;font-size:clamp(12px,2.5vw,17px);animation:reveal-fade .9s .2s both}
+.reveal-icon{font-size:clamp(90px,20vw,160px);margin:20px auto;filter:drop-shadow(0 0 30px #fff9);animation:icon-enter 1s 1.35s both}
+.reveal-title{font-size:clamp(38px,9vw,84px);font-weight:900;letter-spacing:-.04em;margin:8px 0;animation:icon-enter 1s 1.55s both}
+.reveal-sub{color:#dcd9fa;animation:reveal-fade .8s 2s both}
+.reveal-skip{position:absolute;top:25px;right:25px;z-index:3;background:#ffffff17;color:white;border:1px solid #ffffff50;border-radius:12px;padding:9px 14px;cursor:pointer}
+.reveal-skip:hover{background:#ffffff35}
+.reveal.play .reveal-spark{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 50% 48%,#e2d8ff40,transparent 44%);animation:reveal-flash 1.2s 1.2s both}
+.reveal.leave{animation:reveal-out .55s forwards}
+@keyframes beam-left{0%{opacity:0;transform:translateX(-50%) rotate(-65deg)}38%{opacity:.75;transform:translateX(-50%) rotate(-22deg)}70%{opacity:1;transform:translateX(-50%) rotate(-4deg)}100%{opacity:.4;transform:translateX(-50%) rotate(-20deg)}}
+@keyframes beam-right{0%{opacity:0;transform:translateX(-50%) rotate(65deg)}38%{opacity:.75;transform:translateX(-50%) rotate(22deg)}70%{opacity:1;transform:translateX(-50%) rotate(4deg)}100%{opacity:.4;transform:translateX(-50%) rotate(20deg)}}
+@keyframes reveal-fade{from{opacity:0}to{opacity:1}}
+@keyframes icon-enter{from{opacity:0;transform:translateY(35px) scale(.55)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes reveal-flash{0%,100%{opacity:0}50%{opacity:1}}
+@keyframes reveal-out{to{opacity:0;visibility:hidden}}
+@media(prefers-reduced-motion:reduce){.reveal *,.reveal:before,.reveal:after{animation:none!important}.reveal-icon,.reveal-title,.reveal-sub{opacity:1!important}}
 </style>
 </head>
 <body>
+<div class="reveal" id="daily-reveal" role="dialog" aria-modal="true" aria-labelledby="reveal-name" hidden>
+  <div class="reveal-spark" aria-hidden="true"></div>
+  <button type="button" class="reveal-skip" id="reveal-skip">건너뛰기 ✕</button>
+  <div class="reveal-inner">
+    <div class="reveal-kicker">✦ TODAY'S SPOTLIGHT ✦</div>
+    <div class="reveal-icon" id="reveal-emoji" aria-hidden="true">✦</div>
+    <h2 class="reveal-title" id="reveal-name">오늘의 주인공</h2>
+    <p class="reveal-sub">오늘의 도전이 시작됩니다!</p>
+  </div>
+</div>
+
 <header><a href="https://semicolonxss.github.io/Formwheel/" class="fw-hub-logo" aria-label="Formwheel 허브로 이동"><span class="fw-hub-form">Form</span><span class="fw-hub-icon" aria-hidden="true"></span><span class="fw-hub-wheel">Wheel</span></a><span class="header-note">PROJECT · SPOTLIGHT</span></header>
 <main class="wrap">
 <section class="intro"><span class="eyebrow">ONE DAY · ONE PROJECT</span><h1>Spotlight <span aria-hidden="true">✦</span></h1><p>오늘은 어떤 프로젝트가 주인공일까?<br>매일 하나의 프로젝트를 집중 조명하고, 작은 도전을 제안해요.</p></section>
@@ -66,5 +100,41 @@ document.getElementById("share").addEventListener("click",async()=>{
  const payload={title:"오늘의 Formwheel Spotlight — "+featured.name,text:featured.challenge,url:location.href};
  try{if(navigator.share){await navigator.share(payload);return}if(navigator.clipboard){await navigator.clipboard.writeText(location.href);alert("Spotlight 주소를 복사했어요!");return}prompt("아래 주소를 복사해 주세요.",location.href)}catch(e){if(e.name!=="AbortError")prompt("주소를 복사해 주세요.",location.href)}
 });
+
+(function runDailyReveal(){
+ const overlay=document.getElementById("daily-reveal");
+ const key="formwheel.spotlight.reveal."+today;
+ let seen=false;
+ try{seen=localStorage.getItem(key)==="1"}catch(e){}
+ if(seen)return;
+ // Mark as seen when the reveal actually starts. No account or backend required.
+ try{
+   localStorage.setItem(key,"1");
+   // Keep only the current day's Spotlight reveal marker.
+   for(let i=localStorage.length-1;i>=0;i--){
+     const k=localStorage.key(i);
+     if(k&&k.startsWith("formwheel.spotlight.reveal.")&&k!==key)localStorage.removeItem(k);
+   }
+ }catch(e){}
+ document.getElementById("reveal-emoji").textContent=featured.emoji;
+ document.getElementById("reveal-name").textContent=featured.name;
+ overlay.hidden=false;
+ document.body.style.overflow="hidden";
+ const skip=document.getElementById("reveal-skip");
+ skip.focus({preventScroll:true});
+ let closed=false;
+ const finish=()=>{
+   if(closed)return;
+   closed=true;
+   overlay.classList.add("leave");
+   document.body.style.overflow="";
+   window.setTimeout(()=>{overlay.hidden=true;overlay.classList.remove("play","leave");document.getElementById("play").focus({preventScroll:true})},550);
+ };
+ skip.addEventListener("click",finish,{once:true});
+ overlay.addEventListener("keydown",e=>{if(e.key==="Escape")finish()});
+ overlay.classList.add("play");
+ window.setTimeout(finish,4400);
+ if(window.matchMedia("(prefers-reduced-motion: reduce)").matches)window.setTimeout(finish,900);
+})();
 </script>
 </body></html>
