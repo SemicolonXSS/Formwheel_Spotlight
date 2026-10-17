@@ -55,11 +55,11 @@
 <h2 id="featured-title">오늘의 Spotlight</h2>
 <p class="desc" id="description">프로젝트를 소개하고 있어요.</p>
 <div class="challenge"><strong>🎯 오늘의 챌린지</strong><p id="challenge">오늘의 도전을 확인해 보세요.</p></div>
-<div class="buttons"><a class="primary" id="play" href="https://semicolonxss.github.io/Formwheel/">프로젝트 플레이 →</a><button class="secondary" id="share" type="button">🔗 오늘의 Spotlight 공유</button></div>
-<section class="reward-panel" aria-labelledby="reward-title"><h3 id="reward-title">🎁 Spotlight 방문 보상</h3><p>매일 처음 접속하면 스타가 자동 지급돼요!</p><div class="reward-stats"><div class="reward-stat">⭐ 보유 스타 <strong id="star-count">0</strong></div><div class="reward-stat">🔥 연속 참여 <strong id="streak-count">0</strong>일</div><div class="reward-stat">🏅 7일 배지 <strong id="reward-badge">미획득</strong></div></div><p class="reward-message" id="claim-reward">오늘의 자동 지급을 확인하고 있어요…</p><p id="reward-message" class="reward-message" role="status" aria-live="polite"></p><p class="reward-help">방문 보상은 이 브라우저에만 저장되는 Spotlight 전용 스타 및 배지입니다. 챌린지 성공 여부를 확인하는 미션 보상이나 AQS XP·공식 배지 지급과는 연결되지 않았어요. 브라우저 데이터를 삭제하면 기록이 사라질 수 있습니다.</p></section><p class="meta" id="details">매일 00:00 (한국 시간)에 주인공이 바뀝니다.</p>
+<div class="buttons"><a class="primary" id="play" target="_blank" href="https://semicolonxss.github.io/Formwheel/">프로젝트 플레이 →</a><button class="secondary" id="share" type="button">🔗 오늘의 Spotlight 공유</button></div>
+<section class="reward-panel" aria-labelledby="reward-title"><h3 id="reward-title">🎁 Spotlight 방문 보상</h3><p>매일 처음 접속하면 스타가 자동 지급돼요!</p><div class="reward-stats"><div class="reward-stat">⭐ 보유 스타 <strong id="star-count">0</strong></div><div class="reward-stat">🔥 연속 참여 <strong id="streak-count">0</strong>일</div><div class="reward-stat">🏅 7일 배지 <strong id="reward-badge">미획득</strong></div></div><p class="reward-message" id="claim-reward">오늘의 자동 지급을 확인하고 있어요…</p><p id="reward-message" class="reward-message" role="status" aria-live="polite"></p><p id="mission-reward" class="reward-message" role="status">🎯 미션 결과 연동 확인 중…</p><p class="reward-help">방문 보상은 이 브라우저에만 저장되는 Spotlight 전용 스타 및 배지입니다. Cook·Reflex 성공 기록은 Spotlight 탭으로 자동 전달되어 미션 스타 20개가 추가됩니다. 단, 이 기록은 브라우저에만 저장되며 서버 검증·AQS 공식 XP 지급은 아닙니다. 브라우저 데이터를 삭제하면 기록이 사라질 수 있습니다.</p></section><p class="meta" id="details">매일 00:00 (한국 시간)에 주인공이 바뀝니다.</p>
 </section>
 <section aria-labelledby="week-title"><div class="section-top"><h2 id="week-title">📅 이번 주 편성표</h2><span class="muted">월요일 ~ 일요일 · 한국 시간</span></div><div class="week" id="schedule"></div></section>
-<section class="notice"><strong>💡 Spotlight 이용 안내</strong><p>Spotlight는 Formwheel의 기존 프로젝트를 소개하는 특별 코너예요. 하루 첫 방문 시 Spotlight 전용 스타가 자동 지급돼요. 실제 챌린지 달성 여부의 자동 검증과 AQS XP 연동은 아직 지원하지 않아요.</p></section>
+<section class="notice"><strong>💡 Spotlight 이용 안내</strong><p>Spotlight는 Formwheel의 기존 프로젝트를 소개하는 특별 코너예요. 하루 첫 방문 시 Spotlight 전용 스타가 자동 지급돼요. Cook·Reflex 챌린지의 브라우저 연동을 지원해요. AQS XP와 서버 검증은 아직 지원하지 않아요.</p></section>
 </main><footer>© Formwheel · <a href="https://semicolonxss.github.io/Formwheel/">Hub로 돌아가기</a></footer>
 <script>
 "use strict";
@@ -139,6 +139,38 @@ document.getElementById("share").addEventListener("click",async()=>{
    }catch(e){message.textContent="자동 지급 기록을 저장하지 못했어요. 브라우저 저장 설정을 확인해 주세요.";}
  }
  stats();
+})();
+
+
+(function initChallengeReward(){
+ const key="formwheel.spotlight.missions.v1";
+ const el=document.getElementById("mission-reward");
+ const supported=featured.name==="Cook"||featured.name==="Reflex";
+ let claims={};
+ try{const parsed=JSON.parse(localStorage.getItem(key)||"{}");if(parsed&&typeof parsed==="object"&&!Array.isArray(parsed))claims=parsed;}catch(e){}
+ const token=today+":"+featured.name;
+ function render(){
+   const earned=Object.keys(claims).filter(k=>claims[k]===true).length;
+   el.textContent=claims[token]?"✅ 오늘 미션 성공! ⭐ 20개 지급 기록 완료 (누적 미션 스타 "+earned*20+"개)":supported?"🎯 오늘의 미션을 Spotlight에서 열고 성공하면 ⭐ 20개 자동 지급!":"🎯 이 프로젝트의 자동 판정은 준비 중이에요. 방문 보상은 정상 지급됩니다.";
+ }
+ window.addEventListener("message",e=>{
+   if(!supported||e.origin!=="https://semicolonxss.github.io"||e.source!==document.getElementById("play")._spotlightWindow)return;
+   const d=e.data;if(!d||d.type!=="formwheel-spotlight-result-v1"||d.project!==featured.name||!Number.isFinite(d.value))return;
+   if(d.project==="Cook"&&d.value<90)return;
+   if(d.project==="Reflex"&&(d.value>300||d.value<0))return;
+   if(claims[token])return;
+   const next={...claims,[token]:true};
+   try{localStorage.setItem(key,JSON.stringify(next));claims=next;render();}catch(err){el.textContent="성공 기록을 저장하지 못했어요. 저장 공간을 확인해 주세요.";}
+ });
+ const link=document.getElementById("play");
+ if(supported){
+   link.addEventListener("click",e=>{
+     const w=window.open(link.href,"_blank");
+     if(w){e.preventDefault();link._spotlightWindow=w;}
+     else el.textContent="새 탭이 차단됐어요. 팝업을 허용하고 Spotlight에서 다시 열어 주세요.";
+   });
+ }
+ render();
 })();
 
 (function runDailyReveal(){
