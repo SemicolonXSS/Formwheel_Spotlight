@@ -32,6 +32,7 @@
 @keyframes reveal-flash{0%,100%{opacity:0}50%{opacity:1}}
 @keyframes reveal-out{to{opacity:0;visibility:hidden}}
 @media(prefers-reduced-motion:reduce){.reveal *,.reveal:before,.reveal:after{animation:none!important}.reveal-icon,.reveal-title,.reveal-sub{opacity:1!important}}
+.reward-panel{margin:18px 0 0;padding:20px;border:1px solid #dcd8fa;border-radius:18px;background:#fff}.reward-panel h3{margin:0 0 8px;font-size:20px}.reward-stats{display:flex;flex-wrap:wrap;gap:12px;margin:13px 0}.reward-stat{background:#f5f3ff;border-radius:12px;padding:10px 13px;font-size:13px}.reward-stat strong{font-size:19px;color:#3934a1}.reward-help{font-size:12px;color:#68718a;line-height:1.6}.reward-message{font-weight:750;color:#3934a1;min-height:1.4em}.reward-panel button:disabled{opacity:.65;cursor:default}
 </style>
 </head>
 <body>
@@ -55,10 +56,10 @@
 <p class="desc" id="description">프로젝트를 소개하고 있어요.</p>
 <div class="challenge"><strong>🎯 오늘의 챌린지</strong><p id="challenge">오늘의 도전을 확인해 보세요.</p></div>
 <div class="buttons"><a class="primary" id="play" href="https://semicolonxss.github.io/Formwheel/">프로젝트 플레이 →</a><button class="secondary" id="share" type="button">🔗 오늘의 Spotlight 공유</button></div>
-<p class="meta" id="details">매일 00:00 (한국 시간)에 주인공이 바뀝니다.</p>
+<section class="reward-panel" aria-labelledby="reward-title"><h3 id="reward-title">🎁 Spotlight 참여 보상</h3><p>오늘의 도전을 마쳤다면 참여 기록을 남겨보세요!</p><div class="reward-stats"><div class="reward-stat">⭐ 보유 스타 <strong id="star-count">0</strong></div><div class="reward-stat">🔥 연속 참여 <strong id="streak-count">0</strong>일</div><div class="reward-stat">🏅 7일 배지 <strong id="reward-badge">미획득</strong></div></div><button class="primary" type="button" id="claim-reward">오늘 참여 기록하기 · +10 ⭐</button><p id="reward-message" class="reward-message" role="status" aria-live="polite"></p><p class="reward-help">이 보상은 현재 이 브라우저에만 저장되는 Spotlight 전용 스타 및 배지입니다. 실제 미션 달성 자동 검증이나 AQS XP·공식 배지 지급과는 연결되지 않았어요. 브라우저 데이터를 삭제하면 기록이 사라질 수 있습니다.</p></section><p class="meta" id="details">매일 00:00 (한국 시간)에 주인공이 바뀝니다.</p>
 </section>
 <section aria-labelledby="week-title"><div class="section-top"><h2 id="week-title">📅 이번 주 편성표</h2><span class="muted">월요일 ~ 일요일 · 한국 시간</span></div><div class="week" id="schedule"></div></section>
-<section class="notice"><strong>💡 Spotlight 이용 안내</strong><p>Spotlight는 Formwheel의 기존 프로젝트를 소개하는 특별 코너예요. 챌린지는 자유롭게 도전할 수 있으며, 아직 자동 기록·XP 보상은 제공되지 않아요. 추후 AQS 시스템과 연동할 예정입니다.</p></section>
+<section class="notice"><strong>💡 Spotlight 이용 안내</strong><p>Spotlight는 Formwheel의 기존 프로젝트를 소개하는 특별 코너예요. 챌린지 참여는 직접 기록할 수 있고 Spotlight 전용 스타와 연속 참여 배지가 제공돼요. 실제 플레이 결과의 자동 검증과 AQS XP 연동은 아직 지원하지 않아요.</p></section>
 </main><footer>© Formwheel · <a href="https://semicolonxss.github.io/Formwheel/">Hub로 돌아가기</a></footer>
 <script>
 "use strict";
@@ -100,6 +101,47 @@ document.getElementById("share").addEventListener("click",async()=>{
  const payload={title:"오늘의 Formwheel Spotlight — "+featured.name,text:featured.challenge,url:location.href};
  try{if(navigator.share){await navigator.share(payload);return}if(navigator.clipboard){await navigator.clipboard.writeText(location.href);alert("Spotlight 주소를 복사했어요!");return}prompt("아래 주소를 복사해 주세요.",location.href)}catch(e){if(e.name!=="AbortError")prompt("주소를 복사해 주세요.",location.href)}
 });
+
+(function initSpotlightRewards(){
+ const key="formwheel.spotlight.rewards.v1";
+ let data={claimed:[]};
+ try{
+   const parsed=JSON.parse(localStorage.getItem(key)||"{}");
+   if(Array.isArray(parsed.claimed))data.claimed=[...new Set(parsed.claimed.filter(x=>/^\\d{4}-\\d{2}-\\d{2}$/.test(x)&&x<=today))].sort();
+ }catch(e){}
+ const button=document.getElementById("claim-reward");
+ const message=document.getElementById("reward-message");
+ function stats(){
+   const claimed=new Set(data.claimed);
+   let streak=0,day=todayDay;
+   if(!claimed.has(today))day--;
+   while(claimed.has(new Date(day*86400000).toISOString().slice(0,10))){streak++;day--;}
+   // Bonus: one +15 award at each completed 3-day streak and one 7-day badge.
+   let total=10*data.claimed.length,run=0,hasBadge=false;
+   for(let i=0;i<data.claimed.length;i++){
+     const prev=i?Math.floor(Date.parse(data.claimed[i-1]+"T00:00:00Z")/86400000):null;
+     const cur=Math.floor(Date.parse(data.claimed[i]+"T00:00:00Z")/86400000);
+     run=prev===cur-1?run+1:1;
+     if(run%3===0)total+=15;
+     if(run>=7)hasBadge=true;
+   }
+   document.getElementById("star-count").textContent=total.toLocaleString("ko-KR");
+   document.getElementById("streak-count").textContent=streak;
+   document.getElementById("reward-badge").textContent=hasBadge?"🌟 7일 달성":"미획득";
+   button.disabled=claimed.has(today);
+   button.textContent=claimed.has(today)?"✓ 오늘 참여 기록 완료":"오늘 참여 기록하기 · +10 ⭐";
+ }
+ button.addEventListener("click",()=>{
+   if(data.claimed.includes(today))return;
+   if(!confirm("오늘의 챌린지에 직접 도전했나요? 완료 여부는 자동으로 검증되지 않으며, 이 기기에 참여 기록과 Spotlight 스타가 저장됩니다."))return;
+   const next=[...data.claimed,today].sort();
+   try{localStorage.setItem(key,JSON.stringify({claimed:next}));}
+   catch(e){message.textContent="기록을 저장하지 못했어요. 브라우저 저장 공간 설정을 확인해 주세요.";return;}
+   data.claimed=next;stats();
+   message.textContent="🎉 오늘의 참여가 기록됐어요! 스타 10개가 추가됐습니다. (3일 연속 시 +15 보너스)";
+ });
+ stats();
+})();
 
 (function runDailyReveal(){
  const overlay=document.getElementById("daily-reveal");
