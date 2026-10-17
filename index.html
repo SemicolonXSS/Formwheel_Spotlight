@@ -56,21 +56,21 @@
 <p class="desc" id="description">프로젝트를 소개하고 있어요.</p>
 <div class="challenge"><strong>🎯 오늘의 챌린지</strong><p id="challenge">오늘의 도전을 확인해 보세요.</p></div>
 <div class="buttons"><a class="primary" id="play" target="_blank" href="https://semicolonxss.github.io/Formwheel/">프로젝트 플레이 →</a><button class="secondary" id="share" type="button">🔗 오늘의 Spotlight 공유</button></div>
-<section class="reward-panel" aria-labelledby="reward-title"><h3 id="reward-title">🎁 Spotlight 방문 보상</h3><p>매일 처음 접속하면 스타가 자동 지급돼요!</p><div class="reward-stats"><div class="reward-stat">⭐ 보유 스타 <strong id="star-count">0</strong></div><div class="reward-stat">🔥 연속 참여 <strong id="streak-count">0</strong>일</div><div class="reward-stat">🏅 7일 배지 <strong id="reward-badge">미획득</strong></div></div><p class="reward-message" id="claim-reward">오늘의 자동 지급을 확인하고 있어요…</p><p id="reward-message" class="reward-message" role="status" aria-live="polite"></p><p id="mission-reward" class="reward-message" role="status">🎯 미션 결과 연동 확인 중…</p><p class="reward-help">방문 보상은 이 브라우저에만 저장되는 Spotlight 전용 스타 및 배지입니다. Cook·Reflex 성공 기록은 Spotlight 탭으로 자동 전달되어 미션 스타 20개가 추가됩니다. 단, 이 기록은 브라우저에만 저장되며 서버 검증·AQS 공식 XP 지급은 아닙니다. 브라우저 데이터를 삭제하면 기록이 사라질 수 있습니다.</p></section><p class="meta" id="details">매일 00:00 (한국 시간)에 주인공이 바뀝니다.</p>
+<section class="reward-panel" aria-labelledby="reward-title"><h3 id="reward-title">🎁 Spotlight 방문 보상</h3><p>매일 처음 접속하면 스타가 자동 지급돼요!</p><div class="reward-stats"><div class="reward-stat">⭐ 보유 스타 <strong id="star-count">0</strong></div><div class="reward-stat">🔥 연속 참여 <strong id="streak-count">0</strong>일</div><div class="reward-stat">🏅 7일 배지 <strong id="reward-badge">미획득</strong></div></div><p class="reward-message" id="claim-reward">오늘의 자동 지급을 확인하고 있어요…</p><p id="reward-message" class="reward-message" role="status" aria-live="polite"></p><p id="mission-reward" class="reward-message" role="status">🎯 미션 결과 연동 확인 중…</p><p class="reward-help">방문 보상은 이 브라우저에만 저장되는 Spotlight 전용 스타 및 배지입니다. 각 프로젝트의 성공 기록은 Spotlight 탭으로 자동 전달되어 미션 스타 20개가 추가됩니다. 단, 이 기록은 브라우저에만 저장되며 서버 검증·AQS 공식 XP 지급은 아닙니다. 브라우저 데이터를 삭제하면 기록이 사라질 수 있습니다.</p></section><p class="meta" id="details">매일 00:00 (한국 시간)에 주인공이 바뀝니다.</p>
 </section>
 <section aria-labelledby="week-title"><div class="section-top"><h2 id="week-title">📅 이번 주 편성표</h2><span class="muted">월요일 ~ 일요일 · 한국 시간</span></div><div class="week" id="schedule"></div></section>
-<section class="notice"><strong>💡 Spotlight 이용 안내</strong><p>Spotlight는 Formwheel의 기존 프로젝트를 소개하는 특별 코너예요. 하루 첫 방문 시 Spotlight 전용 스타가 자동 지급돼요. Cook·Reflex 챌린지의 브라우저 연동을 지원해요. AQS XP와 서버 검증은 아직 지원하지 않아요.</p></section>
+<section class="notice"><strong>💡 Spotlight 이용 안내</strong><p>Spotlight는 Formwheel의 기존 프로젝트를 소개하는 특별 코너예요. 하루 첫 방문 시 Spotlight 전용 스타가 자동 지급돼요. 7개 프로젝트 챌린지의 브라우저 연동을 지원해요. AQS XP와 서버 검증은 아직 지원하지 않아요.</p></section>
 </main><footer>© Formwheel · <a href="https://semicolonxss.github.io/Formwheel/">Hub로 돌아가기</a></footer>
 <script>
 "use strict";
 const PROJECTS=[
 {name:"Reflex",emoji:"⚡",desc:"순간적인 반응을 시험하는 순발력 프로젝트!",challenge:"300ms 이내의 반응속도에 도전!",url:"https://semicolonxss.github.io/Formwheel_Reflex/"},
 {name:"Cook",emoji:"🍳",desc:"재료를 조합해 나만의 요리를 완성해 봐!",challenge:"랜덤 챌린지에서 90점 이상 달성하기!",url:"https://semicolonxss.github.io/Formwheel_Cook/"},
-{name:"Decode",emoji:"🔐",desc:"암호를 풀고 숨겨진 메시지를 발견하는 도구!",challenge:"직접 만든 암호를 하나 해독하기!",url:"https://semicolonxss.github.io/Formwheel_Decode/"},
-{name:"Clicker",emoji:"👆",desc:"차곡차곡 기록을 쌓는 클릭 도전!",challenge:"나만의 최고 기록 갱신하기!",url:"https://semicolonxss.github.io/Formwheel_Clicker/"},
-{name:"Time",emoji:"⏳",desc:"시간을 지키며 장애물을 헤쳐 나가자!",challenge:"자신의 생존 기록을 갱신하기!",url:"https://semicolonxss.github.io/Formwheel_Time/"},
-{name:"Marble",emoji:"🔮",desc:"매번 다른 맵에서 구슬의 여정을 감상해 봐!",challenge:"아직 플레이하지 않은 맵 탐험하기!",url:"https://semicolonxss.github.io/Formwheel_Marble/"},
-{name:"GCrown",emoji:"👑",desc:"왕관을 놓고 벌이는 전략적인 대결!",challenge:"솔로 모드에서 왕관을 지키며 승리하기!",url:"https://semicolonxss.github.io/Formwheel_GCrown/"}
+{name:"Decode",emoji:"🔐",desc:"암호를 풀고 숨겨진 메시지를 발견하는 도구!",challenge:"텍스트 암호를 하나 정상적으로 해독하기!",url:"https://semicolonxss.github.io/Formwheel_Decode/"},
+{name:"Clicker",emoji:"👆",desc:"차곡차곡 기록을 쌓는 클릭 도전!",challenge:"누적 클릭 100회 달성하기!",url:"https://semicolonxss.github.io/Formwheel_Clicker/"},
+{name:"Time",emoji:"⏳",desc:"시간을 지키며 장애물을 헤쳐 나가자!",challenge:"솔로 모드 한 판 끝까지 생존 도전하기!",url:"https://semicolonxss.github.io/Formwheel_Time/"},
+{name:"Marble",emoji:"🔮",desc:"매번 다른 맵에서 구슬의 여정을 감상해 봐!",challenge:"구슬 레이스 한 판 완주하기!",url:"https://semicolonxss.github.io/Formwheel_Marble/"},
+{name:"GCrown",emoji:"👑",desc:"왕관을 놓고 벌이는 전략적인 대결!",challenge:"솔로 모드에서 한 경기 끝까지 플레이하기!",url:"https://semicolonxss.github.io/Formwheel_GCrown/"}
 ];
 const fmt=new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Seoul",year:"numeric",month:"2-digit",day:"2-digit"});
 const parts=fmt.formatToParts(new Date());const part=t=>parts.find(p=>p.type===t).value;
@@ -145,7 +145,7 @@ document.getElementById("share").addEventListener("click",async()=>{
 (function initChallengeReward(){
  const key="formwheel.spotlight.missions.v1";
  const el=document.getElementById("mission-reward");
- const supported=featured.name==="Cook"||featured.name==="Reflex";
+ const supported=PROJECTS.some(p=>p.name===featured.name);
  let claims={};
  try{const parsed=JSON.parse(localStorage.getItem(key)||"{}");if(parsed&&typeof parsed==="object"&&!Array.isArray(parsed))claims=parsed;}catch(e){}
  const token=today+":"+featured.name;
@@ -158,6 +158,9 @@ document.getElementById("share").addEventListener("click",async()=>{
    const d=e.data;if(!d||d.type!=="formwheel-spotlight-result-v1"||d.project!==featured.name||!Number.isFinite(d.value))return;
    if(d.project==="Cook"&&d.value<90)return;
    if(d.project==="Reflex"&&(d.value>300||d.value<0))return;
+   if(d.project==="Clicker"&&d.value<100)return;
+   if(["Decode","Marble","GCrown"].includes(d.project)&&d.value!==1)return;
+   if(d.project==="Time"&&d.value<0)return;
    if(claims[token])return;
    const next={...claims,[token]:true};
    try{localStorage.setItem(key,JSON.stringify(next));claims=next;render();}catch(err){el.textContent="성공 기록을 저장하지 못했어요. 저장 공간을 확인해 주세요.";}
